@@ -1,5 +1,3 @@
-# https://pyimagesearch.com/2021/07/19/pytorch-training-your-first-convolutional-neural-network-cnn/
-
 # import dependencies
 
 from torch.nn import Module, Conv2d, Linear, MaxPool2d, ReLU, Softmax, Sequential, BatchNorm2d, Sigmoid
