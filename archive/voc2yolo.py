@@ -25,9 +25,9 @@ def yolo_to_xml_bbox(bbox, w, h):
 
 
 classes = []
-input_dir = "annotations/"
-output_dir = "labels/"
-image_dir = "images/"
+input_dir = "archive/annotations/"
+output_dir = "archive/labels/"
+image_dir = "archive/images/"
 
 # create the labels folder (output directory)
 os.mkdir(output_dir)
@@ -39,7 +39,7 @@ for fil in files:
     basename = os.path.basename(fil)
     filename = os.path.splitext(basename)[0]
     # check if the label contains the corresponding image file
-    if not os.path.exists(os.path.join(image_dir, f"{filename}.jpg")):
+    if not os.path.exists(os.path.join(image_dir, f"{filename}.png")):
         print(f"{filename} image does not exist!")
         continue
 
