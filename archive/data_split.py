@@ -2,7 +2,7 @@ import os
 import shutil
 from sklearn.model_selection import train_test_split
 
-def split_images():
+def split():
     data = os.listdir('archive/images')
     train, test = train_test_split(data, test_size=0.2, random_state=27)
 
@@ -13,12 +13,3 @@ def split_images():
     for file in test:
         shutil.move('archive/images/' + file, 'archive/test/' + file)
         shutil.move('archive/labels/' + file[:-3] + 'txt', 'archive/test/' + file)
-
-def split_labels():
-    data = os.listdir('archive/train')
-
-    for img in data:
-        label = 'archive/labels/' + img[:-3] + 'txt'
-        print(label)
-
-split_images()
