@@ -29,6 +29,12 @@ input_dir = "archive/annotations/"
 output_dir = "archive/labels/"
 image_dir = "archive/images/"
 
+try:
+    os.rmdir(output_dir)
+except OSError as e:
+    print("Error: %s : %s" % (output_dir, e.strerror))
+
+
 # create the labels folder (output directory)
 os.mkdir(output_dir)
 
