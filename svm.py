@@ -162,3 +162,7 @@ def detect(image):
 detected = detect(np.asarray(PIL.Image.open('archive/images/road1.png')))
 plt.imshow(detected)
 plt.show()
+
+# TODO
+## Fix bounding boxes
+## Figure out a way to train it with the existing boxes from YOLO formatted data
