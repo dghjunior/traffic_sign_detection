@@ -10,4 +10,4 @@ def yolo_test():
 
 # yolo_train()
 
-yolo_test()
+# yolo_test()
