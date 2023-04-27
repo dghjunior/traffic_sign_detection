@@ -159,7 +159,7 @@ def detect(image):
 
     return image
 
-detected = detect(np.asarray(PIL.Image.open('archive/images/road1.png')))
+detected = detect(np.asarray(PIL.Image.open('archive/images/road25.png')))
 plt.imshow(detected)
 plt.show()
 
