@@ -25,9 +25,9 @@ def yolo_to_xml_bbox(bbox, w, h):
 
 
 classes = []
-input_dir = "archive/annotations/"
-output_dir = "archive/labels/"
-image_dir = "archive/images/"
+input_dir = "C:/Users/DHarp/Documents/GitHub/traffic_sign_detection/data/voc_annotations"
+output_dir = "C:/Users/DHarp/Documents/GitHub/traffic_sign_detection/data/yolo_annotations/"
+image_dir = "C:/Users/DHarp/Documents/GitHub/traffic_sign_detection/data/images/"
 
 try:
     os.rmdir(output_dir)
