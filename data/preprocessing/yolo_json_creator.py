@@ -28,10 +28,10 @@ for file_name in os.listdir(ann_dir):
         lines = f.readlines()
     
     # Get the image ID from the file name
-    img_id = int(file_name.split('.')[0])
+    img_id = int(file_name.split('.')[0][4:])
     
     # Add the image information to the dictionary
-    image_info = {"id": img_id, "file_name": str(img_id) + ".jpg"}
+    image_info = {"id": img_id, "file_name": 'road'+ str(img_id) + ".jpg"}
     coco_dict["images"].append(image_info)
     
     # Loop over each bounding box in the YOLO annotation file
@@ -61,5 +61,5 @@ for file_name in os.listdir(ann_dir):
 # Save the COCO-style JSON file
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
-with open(os.path.join(output_dir, 'instances_val2017.json'), 'w') as f:
+with open(os.path.join(output_dir, 'road_sign_detection.json'), 'w') as f:
     json.dump(coco_dict, f)
