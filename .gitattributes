@@ -1,1 +1,2 @@
 /svm/model/svm_model.p filter=lfs diff=lfs merge=lfs -text
+/svm/model/svm_model.pkl filter=lfs diff=lfs merge=lfs -text
