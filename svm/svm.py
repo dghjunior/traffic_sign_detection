@@ -1,40 +1,71 @@
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
-import tensorflow as tf
-from keras.preprocessing.image import ImageDataGenerator
-from keras import Sequential
-from keras.layers import Conv2D,Dense, MaxPool2D, Flatten
-from keras.regularizers import l2
+import pandas as pd
 import os
+from skimage.transform import resize
+from skimage.io import imread
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearnex import patch_sklearn
+patch_sklearn()
+from sklearn import svm
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report
 
-train_dir = 'svm/data/train'
-test_df = 'svm/data/test'
+Categories=["trafficlight", "speedlimit", "crosswalk", "stop"]
+flat_data_arr=[] #input array
+target_arr=[] #output array
+datadir='svm/data/train/'
+#path which contains all the categories of images
+for i in Categories:
+	
+	print(f'loading... category : {i}')
+	path=os.path.join(datadir,i)
+	for img in os.listdir(path):
+		img_array=imread(os.path.join(path,img))
+		img_resized=resize(img_array,(150,150,3))
+		flat_data_arr.append(img_resized.flatten())
+		target_arr.append(Categories.index(i))
+	print(f'loaded category:{i} successfully')
+flat_data=np.array(flat_data_arr)
+target=np.array(target_arr)
 
-train_datagen = ImageDataGenerator(rescale=(1/255.),shear_range = 0.2,zoom_range=0.2,
-                                   horizontal_flip=True)
-training_set = train_datagen.flow_from_directory(directory = train_dir,target_size=(64,64),
-                                                batch_size=32,
-                                                class_mode = "binary")
-test_datagen = ImageDataGenerator(rescale=(1/255.))
-test_set = test_datagen.flow_from_directory(directory = test_df,target_size=(64,64),
-                                                batch_size=32,
-                                                class_mode = "binary")
+#dataframe
+df=pd.DataFrame(flat_data)
+df['Target']=target
+df.shape
 
+#input data
+x=df.iloc[:,:-1]
+#output data
+y=df.iloc[:,-1]
 
+# Splitting the data into training and testing sets
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.20,
+                                               random_state=77,
+                                               stratify=y)
 
-model = Sequential()
-model.add(Conv2D(filters = 32, padding = "same",activation = "relu",kernel_size=3, strides = 2,input_shape=(64,64,3)))
-model.add(MaxPool2D(pool_size=(2,2),strides = 2))
+# Defining the parameters grid for GridSearchCV
+param_grid={'C':[0.1,1,10,100],
+			'gamma':[0.0001,0.001,0.1,1],
+			'kernel':['rbf','poly']}
 
-model.add(Conv2D(filters = 32, padding = "same",activation = "relu",kernel_size=3))
-model.add(MaxPool2D(pool_size=(2,2),strides = 2))
+# Creating a support vector classifier
+svc=svm.SVC(probability=True)
 
-model.add(Flatten())
-model.add(Dense(128,activation="relu"))
+# Creating a model using GridSearchCV with the parameters grid
+model=GridSearchCV(svc,param_grid)
 
-number_of_classes = 4
+# Training the model using the training data
+model.fit(x_train,y_train)
 
-model.add(Dense(number_of_classes,kernel_regularizer = l2(0.01),activation= "softmax"))
-model.compile(optimizer="adam",loss="squared_hinge", metrics = ['accuracy'])
+# Testing the model using the testing data
+y_pred = model.predict(x_test)
 
-history = model.fit(training_set,validation_data=test_set,epochs=15)
+# Calculating the accuracy of the model
+accuracy = accuracy_score(y_pred, y_test)
+
+# Print the accuracy of the model
+print(f"The model is {accuracy*100}% accurate")
+
+print(classification_report(y_test, y_pred, target_names=["trafficlight", "speedlimit", "crosswalk", "stop"]))
