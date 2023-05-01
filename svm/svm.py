@@ -11,6 +11,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
+import pickle
 
 Categories=["trafficlight", "speedlimit", "crosswalk", "stop"]
 flat_data_arr=[] #input array
@@ -69,3 +70,6 @@ accuracy = accuracy_score(y_pred, y_test)
 print(f"The model is {accuracy*100}% accurate")
 
 print(classification_report(y_test, y_pred, target_names=["trafficlight", "speedlimit", "crosswalk", "stop"]))
+
+# Saving the model
+pickle.dump(model, open('svm/model/svm_model.p','wb'))
