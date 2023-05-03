@@ -51,13 +51,13 @@ sns.set_style('darkgrid')
 df = pd.DataFrame(l, columns=['labels'])
 sns.countplot(x = 'labels', data = df)
 
-plt.figure(figsize = (5,5))
-plt.imshow(train[1][0])
-plt.title(labels[train[0][1]])
+#plt.figure(figsize = (5,5))
+#plt.imshow(train[1][0])
+#plt.title(labels[train[0][1]])
 
-plt.figure(figsize = (5,5))
-plt.imshow(train[-1][0])
-plt.title(labels[train[-1][1]])
+#plt.figure(figsize = (5,5))
+#plt.imshow(train[-1][0])
+#plt.title(labels[train[-1][1]])
 
 x_train = []
 y_train = []
@@ -121,15 +121,16 @@ opt = Adam(learning_rate=0.000001)
 model.compile(optimizer = opt , loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True) , metrics = ['accuracy'])
 
 # Train Model
-history = model.fit(x_train,y_train,epochs = 50, validation_data = (x_val, y_val))
+history = model.fit(x_train,y_train,epochs = 100, validation_data = (x_val, y_val))
 
 acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 
-epochs_range = range(50)
+model.save('diy_model')
 
+epochs_range = range(100)
 plt.figure(figsize=(15, 15))
 plt.subplot(2, 2, 1)
 plt.plot(epochs_range, acc, label='Training Accuracy')
