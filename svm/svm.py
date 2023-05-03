@@ -12,6 +12,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
 import pickle
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 Categories=["trafficlight", "speedlimit", "crosswalk", "stop"]
 flat_data_arr=[] #input array
@@ -58,7 +60,7 @@ svc=svm.SVC(probability=True)
 model=GridSearchCV(svc,param_grid)
 
 # Training the model using the training data
-model.fit(x_train,y_train)
+history = model.fit(x_train,y_train)
 
 # Testing the model using the testing data
 y_pred = model.predict(x_test)
@@ -69,7 +71,9 @@ accuracy = accuracy_score(y_pred, y_test)
 # Print the accuracy of the model
 print(f"The model is {accuracy*100}% accurate")
 
-print(classification_report(y_test, y_pred, target_names=["trafficlight", "speedlimit", "crosswalk", "stop"]))
+clf_report = classification_report(y_test, y_pred, target_names=["trafficlight", "speedlimit", "crosswalk", "stop"], output_dict=True)
+sns.heatmap(pd.DataFrame(clf_report).iloc[:-1, :].T, annot=True)
+plt.show()
 
 # Saving the model
-pickle.dump(model, open('svm/model/svm_model.p','wb'))
+pickle.dump(model, open('svm/model/svm_model.pkl','wb'))
