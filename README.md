@@ -6,12 +6,11 @@ https://www.kaggle.com/datasets/andrewmvd/road-sign-detection
 # Models I'm Using
 - YOLOv7
 - SVM
-- DIY Method from article online
+- SVM with HOG
+- Custom Keras Model
 
-- Ensemble method?
-- Feature extraction?
+(I wanted to use Caffe from UC Berkeley but was unable to get it working with my dataset)
 
-- Caffe currently not working, but might could try again.
 
 # Things I want to compare:
 - Data type
