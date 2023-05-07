@@ -4,7 +4,7 @@ import os
 
 # Path: yolo\data\yolo_data_split.py
 
-for dir in os.listdir('diy_model/data/train/'):
+for dir in ['stop', 'trafficlight']:
     images = os.listdir('diy_model/data/train/' + dir)
 
     # split the data into train and test sets
